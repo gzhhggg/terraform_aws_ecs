@@ -32,4 +32,6 @@ locals {
 
   ami           = "ami-052c9af0c988f8bbd"
   instance_type = "t2.micro"
+
+  repository = "hello-world-ecs-test"
 }
