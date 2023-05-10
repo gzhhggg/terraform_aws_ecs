@@ -16,18 +16,6 @@ locals {
     public = {
       a = "10.0.10.0/25"
     }
-    protect = {
-      a = "10.0.20.0/25"
-      c = "10.0.20.128/25"
-    }
-    private = {
-      a = "10.0.30.0/25"
-      c = "10.0.30.128/25"
-    }
-    availability_zone = {
-      a = "ap-northeast-1a"
-      c = "ap-northeast-1c"
-    }
   }
 
   ami           = "ami-052c9af0c988f8bbd"
