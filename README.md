@@ -2,8 +2,8 @@
 terraformの学習用（fargate,CI/CD)
 redisも良く分かってないので触ってみる
 
-#　補足
-アプリケーション（dockerfileとかsrcとか）のイメージをビルドしてECRにアップロードする
+# 補足
+アプリケーション（dockerfileとかsrcとか）のイメージをビルドしてECRにアップロードする  
 ローカルでビルドとaws codebuildを試す
 
 # インフラ構成図
