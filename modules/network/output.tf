@@ -1,4 +1,4 @@
-output "subnet" {
+output "subnets" {
   value = aws_subnet.default
 }
 
