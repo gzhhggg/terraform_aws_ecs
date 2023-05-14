@@ -3,7 +3,7 @@ module "main" {
 
   project  = local.project
   vpc_name = local.vpc_name
-  vpc_id   = local.vpc_id
+  vpc_cidr   = local.vpc_cidr
 
   subnet = local.subnet
 }

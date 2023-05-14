@@ -11,16 +11,9 @@ resource "aws_db_instance" "default" {
   instance_class          = "db.t2.micro"
   allocated_storage       = 20
   storage_type            = "gp2"
-  vpc_security_group_ids  = [aws_security_group.protect.id]
+  vpc_security_group_ids  = [module.sg_private.security_group_id]
   db_subnet_group_name    = aws_db_subnet_group.default.name
   username                = "myuser"
   password                = "mypassword"
-}
-
-resource "aws_security_group" "protect" {
-  name_prefix = "${var.project}-protect-sg"
-  vpc_id = aws_vpc.default.id
-  tags = {
-    Name = "${var.project}-protect-sg"
-  }
+  skip_final_snapshot    = true
 }
