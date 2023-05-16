@@ -1,0 +1,80 @@
+resource "aws_ecs_cluster" "default" {
+  name = "myapp-cluster"
+}
+
+resource "aws_ecs_task_definition" "default" {
+  family = "myapp-task-definition"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  memory = 512
+  cpu    = 256
+  task_role_arn = aws_iam_role.ecs_task_role.arn
+  execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
+  container_definitions    = jsonencode(
+    [
+      {
+        name      = "myapp"
+        image     = "166382810986.dkr.ecr.ap-northeast-1.amazonaws.com/myapp:v1"
+        portMappings = [
+          {
+            containerPort = 8080
+            protocol      = "tcp"
+          },
+        ],
+      },
+    ]
+  )
+}
+
+data "aws_iam_policy_document" "ecs_assume_role" {
+  statement {
+  actions = ["sts:AssumeRole"]
+
+    principals {
+      type        = "Service"
+      identifiers = ["ecs-tasks.amazonaws.com"]
+    }
+  }
+}
+
+data "aws_iam_policy_document" "ecs_task" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "rds:*",
+      "logs:DescribeLogStreams",
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "xray:*"
+    ]
+    resources = [
+      "*"
+    ]
+  }
+}
+
+resource "aws_iam_role" "ecs_task_role" {
+  name = "${var.project}-ecs-task-role"
+  assume_role_policy = data.aws_iam_policy_document.ecs_assume_role.json
+}
+
+resource "aws_iam_policy" "ecs_task_policy" {
+  name = "${var.project}-ecs-task-policy"
+  policy = data.aws_iam_policy_document.ecs_task.json
+}
+
+resource "aws_iam_role" "ecs_task_execution_role" {
+  name = "${var.project}-ecs-task-exec-role"
+  assume_role_policy = data.aws_iam_policy_document.ecs_assume_role.json
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy" {
+  role = aws_iam_role.ecs_task_execution_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+resource "aws_iam_role_policy_attachment" "ecs_task_role_policy" {
+  role = aws_iam_role.ecs_task_role.name
+  policy_arn = aws_iam_policy.ecs_task_policy.arn
+}
