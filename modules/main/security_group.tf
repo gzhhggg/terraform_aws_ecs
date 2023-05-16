@@ -26,6 +26,19 @@ module "sg_private" {
   inbound_source_security_group_id = module.sg_public.security_group_id
 }
 
+module "sg_ecs" {
+  source = "../security_group"
+
+  name = "ecs"
+  name_prefix = var.project
+
+  vpc_id = aws_vpc.default.id
+  inbound_ports = [
+    "8080",
+  ]
+  inbound_cidr_blocks = ["0.0.0.0/0"]
+}
+
 # module "sg_vpc_endpoint" {
 #   source = "./security_group"
 
