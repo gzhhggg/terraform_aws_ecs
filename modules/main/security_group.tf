@@ -36,7 +36,7 @@ module "sg_ecs" {
   inbound_ports = [
     "8080",
   ]
-  inbound_cidr_blocks = ["0.0.0.0/0"]
+  inbound_source_security_group_id = module.sg_public.security_group_id
 }
 
 # module "sg_vpc_endpoint" {

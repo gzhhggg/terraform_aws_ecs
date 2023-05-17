@@ -1,7 +1,7 @@
 locals {
   project  = "test-service"
   vpc_name = "aws_test"
-  vpc_cidr   = "10.0.0.0/16"
+  vpc_cidr = "10.0.0.0/16"
 
   subnet = {
     public = {

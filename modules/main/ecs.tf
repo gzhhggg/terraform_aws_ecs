@@ -21,6 +21,14 @@ resource "aws_ecs_task_definition" "default" {
             protocol      = "tcp"
           },
         ],
+        "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+            "awslogs-group": "${aws_cloudwatch_log_group.default.name}",
+            "awslogs-region": "ap-northeast-1",
+            "awslogs-stream-prefix": "ecs"
+          }
+        },
       },
     ]
   )
@@ -77,4 +85,23 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy" {
 resource "aws_iam_role_policy_attachment" "ecs_task_role_policy" {
   role = aws_iam_role.ecs_task_role.name
   policy_arn = aws_iam_policy.ecs_task_policy.arn
+}
+
+resource "aws_ecs_service" "default" {
+  name = "${var.project}-ecs-service"
+  cluster = aws_ecs_cluster.default.id
+  task_definition = aws_ecs_task_definition.default.id
+  desired_count = 1
+  launch_type = "FARGATE"
+  platform_version = "1.4.0"
+  load_balancer {
+      target_group_arn = aws_lb_target_group.default.arn
+      container_name = "myapp"
+      container_port = 8080
+    }
+  network_configuration {
+    subnets = [ for subnet in module.network_public.subnets : subnet.id ]
+    security_groups = [ module.sg_ecs.security_group_id ]
+    assign_public_ip = true
+  }
 }
