@@ -15,5 +15,6 @@ resource "aws_db_instance" "default" {
   db_subnet_group_name    = aws_db_subnet_group.default.name
   username                = "myuser"
   password                = "mypassword"
+  name = "mydb"
   skip_final_snapshot    = true
 }

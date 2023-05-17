@@ -29,6 +29,12 @@ resource "aws_ecs_task_definition" "default" {
             "awslogs-stream-prefix": "ecs"
           }
         },
+        "environment": [
+        {
+          "name": "MYSQL_HOST",
+          "value": "${aws_ssm_parameter.default.value}"
+        }
+    ],
       },
     ]
   )
@@ -54,7 +60,9 @@ data "aws_iam_policy_document" "ecs_task" {
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents",
-      "xray:*"
+      "xray:*",
+      "ssm:DescribeParameters",
+      "ssm:GetParameter*"
     ]
     resources = [
       "*"
