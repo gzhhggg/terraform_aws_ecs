@@ -4,7 +4,7 @@ redisも良く分かってないので触ってみる
 　
 # 補足
 アプリケーション（dockerfileとかsrcとか）のイメージをビルドしてECRにアップロードする  
-ローカルでビルドとaws codebuildを試す
+ローカルでビルドとaws codebuildを試す　　
 ※github actionsでterraformを実行してみる
 
 
