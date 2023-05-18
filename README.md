@@ -11,4 +11,5 @@ redisも良く分かってないので触ってみる
 
 # インフラ構成図
 変更中
-![aws_test drawio (3)](https://github.com/gzhhggg/terraform_aws_ecs/assets/93046615/20b28745-dd4c-48c9-96f0-eab1a9a29d9d)
+![aws_test drawio (3)](https://github.com/gzhhggg/terraform_aws_ecs/assets/93046615/32717ad8-f8b8-41f1-98ce-655cd5304de1)
+
