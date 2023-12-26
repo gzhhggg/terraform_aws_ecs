@@ -23,7 +23,7 @@ module "sg_private" {
   inbound_ports = [
     "3306",
   ]
-  inbound_source_security_group_id = module.sg_ecs.security_group_id
+  inbound_source_security_group_id = module.sg_public.security_group_id
 }
 
 module "sg_ecs" {

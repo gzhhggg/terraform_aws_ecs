@@ -1,5 +1,5 @@
 locals {
-  rds_endpoint = split(":", aws_db_instance.default.endpoint)[0]
+  rds_endpoint = aws_db_instance.default.endpoint
 }
 
 resource "aws_ssm_parameter" "default" {
